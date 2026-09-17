@@ -1,6 +1,6 @@
 from django.db import models
 from usuario.models import Usuario
-from empresa.constants import modelo_de_trabalho_choices, tipo_de_emprego_choices, encontrado_em_choices, status_choices
+from empresa.constants import modelo_de_trabalho_choices, tipo_de_emprego_choices, encontrado_em_choices, status_choices, tipo_evento_choices
 
 class Empresa(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuário")
@@ -46,3 +46,13 @@ class Candidatura(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.vaga}"
+
+class EventoCandidatura(models.Model):
+    candidatura = models.ForeignKey(Candidatura, on_delete=models.CASCADE, verbose_name="Candidatura")
+    tipo_evento = models.CharField(max_length=255, choices=tipo_evento_choices, verbose_name="Evento")
+    data_evento = models.DateTimeField(auto_now_add=True, verbose_name="Data do Evento")
+    notas = models.TextField(blank=True, null=True, verbose_name="Notas")
+    criado_em = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
+
+    def __str__(self):
+        return f"{self.candidatura} - {self.evento}"

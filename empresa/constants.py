@@ -28,3 +28,13 @@ status_choices = [
     ('aprovado', 'Aprovado'),
     ('rejeitado', 'Rejeitado'),
 ]
+
+tipo_evento_choices = [
+    ('candidatura_enviada', 'Candidatura Enviada'),
+    ('teste_recebido', 'Teste Recebido'),
+    ('teste_enviado', 'Teste Enviado'),
+    ('entrevista_marcada', 'Entrevista Marcada'),
+    ('entrevista_realizada', 'Entrevista Realizada'),
+    ('feedback_recebido', 'Feedback Recebido'),
+    ('processo_encerrado', 'Processo Encerrado'),
+]
