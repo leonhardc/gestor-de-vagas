@@ -9,9 +9,9 @@ class EmpresaAdmin(admin.ModelAdmin):
 
 @admin.register(Vaga)
 class VagaAdmin(admin.ModelAdmin):
-    list_display = ['empresa', 'titulo', 'descricao', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
-    search_fields = ['empresa', 'titulo', 'descricao', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
-    list_filter = ['empresa', 'titulo', 'descricao', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
+    list_display = ['empresa', 'titulo', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
+    search_fields = ['empresa', 'titulo', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
+    list_filter = ['empresa', 'titulo', 'modelo_de_trabalho', 'tipo_de_emprego', 'salario', 'localizacao', 'data_cadastro', 'data_atualizacao']
 
 @admin.register(Candidatura)
 class CandidaturaAdmin(admin.ModelAdmin):
