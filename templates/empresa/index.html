@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <title>Pagina Inicial</title>
 </head>
 <body>
-    <h2>Vagas</h2>
-    <ul>
+    <div class="container-fluid mt-4">
+        <h2 class="mb-4">Vagas</h2>
         {% for vaga in vagas %}
-            <li><a href="#">{{ vaga }}</a></li>
+            <li class="card mb-2">
+                <a class="card-body" href="#">{{ vaga }}</a>
+            </li>
         {% endfor %}
-    </ul>
+    </div>
 </body>
+<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
 </html>
