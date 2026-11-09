@@ -3,9 +3,9 @@ from .models import Usuario, ExperienciaProfissional, Habilidade, Idioma, Formac
 
 @admin.register(Usuario)
 class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ('user', 'data_nascimento', 'cpf', 'rg', 'sexo', 'nacionalidade', 'estado_civil', 'profissao', 'escolaridade', 'data_cadastro', 'data_atualizacao')
+    list_display = ('user', 'data_nascimento', 'cpf', 'rg', 'sexo', 'nacionalidade', 'estado_civil', 'escolaridade', 'data_cadastro', 'data_atualizacao')
     search_fields = ('user__username', 'cpf', 'rg')
-    list_filter = ('estado_civil', 'profissao', 'escolaridade', 'nacionalidade', 'data_cadastro', 'data_atualizacao')
+    list_filter = ('estado_civil', 'escolaridade', 'nacionalidade', 'data_cadastro', 'data_atualizacao')
 
 @admin.register(ExperienciaProfissional)
 class ExperienciaProfissionalAdmin(admin.ModelAdmin):
@@ -39,6 +39,6 @@ class TelefoneAdmin(admin.ModelAdmin):
 
 @admin.register(Endereco)
 class EnderecoAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'logradouro', 'cidade', 'estado', 'cep')
-    search_fields = ('usuario__user__username', 'logradouro', 'cidade', 'estado', 'cep')
+    list_display = ('usuario', 'cidade', 'estado', 'cep')
+    search_fields = ('usuario__user__username', 'cidade', 'estado', 'cep')
     list_filter = ('cidade', 'estado')
