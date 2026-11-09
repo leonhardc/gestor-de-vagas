@@ -7,8 +7,8 @@ class Empresa(models.Model):
     nome = models.CharField(max_length=255, verbose_name="Nome")
     cnpj = models.CharField(max_length=18, verbose_name="CNPJ")
     endereco = models.CharField(max_length=255, verbose_name="Endereço")
-    telefone = models.CharField(max_length=15, verbose_name="Telefone")
-    email = models.EmailField(max_length=255, verbose_name="Email")
+    telefone = models.CharField(max_length=15, blank=True, null=True, verbose_name="Telefone")
+    email = models.EmailField(max_length=255, blank=True, null=True, verbose_name="Email")
     linkedin_url = models.URLField(max_length=255, blank=True, null=True, verbose_name="LinkedIn")
     website_url = models.URLField(max_length=255, blank=True, null=True, verbose_name="Website")
     descricao = models.TextField(blank=True, null=True, verbose_name="Descrição")
@@ -55,4 +55,4 @@ class EventoCandidatura(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True, verbose_name="Criado em")
 
     def __str__(self):
-        return f"{self.candidatura} - {self.evento}"
+        return f"{self.candidatura} - {self.tipo_evento}"
