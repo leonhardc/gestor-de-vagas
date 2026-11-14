@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Cadastrar vaga | VagaFlow{% endblock %}
+{% block breadcrumb %}Cadastrar vaga{% endblock %}
+
+{% block content %}
+
+<div class="form-page-header">
+    <div>
+        <a href="{% url 'vagas:lista' %}" class="back-link">
+            <i class="bi bi-arrow-left"></i>
+            Voltar para vagas
+        </a>
+
+        <h1>Cadastrar nova vaga</h1>
+
+        <p>
+            Registre uma oportunidade para acompanhar
+            seu processo de candidatura.
+        </p>
+    </div>
+</div>
+
+<div class="form-container">
+
+    {% if not form.fields.empresa.queryset.exists %}
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            Você ainda não possui empresas cadastradas.
+            Cadastre uma empresa antes de adicionar uma vaga.
+
+            <a href="{% url 'vagas:cadastrar_vaga' %}"
+               class="alert-link">
+                Cadastrar empresa
+            </a>
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% crispy form %}
+
+        <div class="form-actions">
+
+            <a href="{% url 'vagas:lista' %}"
+               class="btn btn-cancel">
+                Cancelar
+            </a>
+
+            <button type="submit"
+                    class="btn btn-primary-custom"
+                    {% if not form.fields.empresa.queryset.exists %}
+                        disabled
+                    {% endif %}>
+                <i class="bi bi-check-lg"></i>
+                Salvar vaga
+            </button>
+
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
