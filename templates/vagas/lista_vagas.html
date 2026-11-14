@@ -69,7 +69,7 @@
                  data-type="{{ vaga.tipo_contrato|default:''|lower }}">
             <div class="job-card-top">
                 <div class="company-logo">
-                    {% if vaga.empresa %}
+                    {% if vaga.empresa__logo %}
                         {{ vaga.empresa|slice:":1"|upper }}
                     {% else %}
                         <i class="bi bi-buildings"></i>
