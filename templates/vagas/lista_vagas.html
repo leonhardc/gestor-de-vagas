@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Vagas disponíveis | VagaFlow{% endblock %}
+{% block breadcrumb %}Explorar vagas{% endblock %}
+
+{% block content %}
+<section class="welcome-section">
+    <div>
+        <div class="eyebrow"><span class="eyebrow-dot"></span> SEU PRÓXIMO PASSO COMEÇA AQUI</div>
+        <h1>Encontre sua próxima <span>oportunidade.</span></h1>
+        <p class="welcome-subtitle">Centralize suas oportunidades e acompanhe as vagas que fazem sentido para sua carreira.</p>
+    </div>
+    <a href="#" class="btn btn-primary-custom">
+        <i class="bi bi-plus-lg"></i> Cadastrar vaga
+    </a>
+</section>
+
+<section class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon stat-blue"><i class="bi bi-briefcase"></i></div>
+        <div><span class="stat-label">Total de vagas</span><strong>{{ vagas|length }}</strong></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon stat-purple"><i class="bi bi-bookmark-star"></i></div>
+        <div><span class="stat-label">Vagas salvas</span><strong>{{ total_favoritas|default:"0" }}</strong></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon stat-green"><i class="bi bi-send-check"></i></div>
+        <div><span class="stat-label">Candidaturas</span><strong>{{ total_candidaturas|default:"0" }}</strong></div>
+    </div>
+</section>
+
+<section class="jobs-section">
+    <div class="section-heading">
+        <div>
+            <h2>Oportunidades</h2>
+            <p>Confira as vagas cadastradas na sua plataforma.</p>
+        </div>
+        <span class="results-count"><strong id="visibleCount">{{ vagas|length }}</strong> vagas encontradas</span>
+    </div>
+
+    <div class="filter-panel">
+        <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="search" id="jobSearch" class="form-control" placeholder="Buscar por cargo ou empresa..." aria-label="Buscar vagas">
+        </div>
+        <select id="modalityFilter" class="form-select" aria-label="Filtrar por modalidade">
+            <option value="">Todas as modalidades</option>
+            <option value="remoto">Remoto</option>
+            <option value="hibrido">Híbrido</option>
+            <option value="presencial">Presencial</option>
+        </select>
+        <select id="typeFilter" class="form-select" aria-label="Filtrar por contratação">
+            <option value="">Todos os contratos</option>
+            <option value="clt">CLT</option>
+            <option value="pj">PJ</option>
+            <option value="estagio">Estágio</option>
+            <option value="freelancer">Freelancer</option>
+            <option value="temporario">Temporário</option>
+        </select>
+    </div>
+
+    <div class="job-list" id="jobList">
+        {% for vaga in vagas %}
+        <article class="job-card"
+                 data-search="{{ vaga.titulo|default:''|lower }} {{ vaga.empresa|default:''|lower }}"
+                 data-modality="{{ vaga.modalidade|default:''|lower }}"
+                 data-type="{{ vaga.tipo_contrato|default:''|lower }}">
+            <div class="job-card-top">
+                <div class="company-logo">
+                    {% if vaga.empresa %}
+                        {{ vaga.empresa|slice:":1"|upper }}
+                    {% else %}
+                        <i class="bi bi-buildings"></i>
+                    {% endif %}
+                </div>
+                <div class="job-main-info">
+                    <div class="job-title-row">
+                        <h3>{{ vaga.titulo|default:"Título não informado" }}</h3>
+                        {% if vaga.status %}
+                            <span class="job-status">{{ vaga.status }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="company-name">{{ vaga.empresa|default:"Empresa não informada" }}</div>
+                </div>
+                <button class="save-button" type="button" aria-label="Salvar vaga" title="Salvar vaga">
+                    <i class="bi bi-bookmark"></i>
+                </button>
+            </div>
+
+            <div class="job-meta">
+                {% if vaga.localizacao %}<span><i class="bi bi-geo-alt"></i>{{ vaga.localizacao }}</span>{% endif %}
+                {% if vaga.modalidade %}<span><i class="bi bi-laptop"></i>{{ vaga.modalidade }}</span>{% endif %}
+                {% if vaga.tipo_contrato %}<span><i class="bi bi-clock"></i>{{ vaga.tipo_contrato }}</span>{% endif %}
+                {% if vaga.salario %}<span><i class="bi bi-cash-coin"></i>{{ vaga.salario }}</span>{% endif %}
+            </div>
+
+            {% if vaga.descricao %}
+                <p class="job-description">{{ vaga.descricao|truncatechars:190 }}</p>
+            {% endif %}
+
+            <div class="job-card-footer">
+                <span class="job-date">
+                    {% if vaga.criado_em %}
+                        <i class="bi bi-calendar3"></i> Publicada em {{ vaga.criado_em|date:"d/m/Y" }}
+                    {% elif vaga.data_cadastro %}
+                        <i class="bi bi-calendar3"></i> Publicada em {{ vaga.data_cadastro|date:"d/m/Y" }}
+                    {% else %}
+                        <i class="bi bi-calendar3"></i> Data não informada
+                    {% endif %}
+                </span>
+                {% if vaga.url %}
+                    <a href="{{ vaga.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm job-action">Ver oportunidade <i class="bi bi-arrow-up-right"></i></a>
+                {% else %}
+                    <a href="#" class="btn btn-outline-primary btn-sm job-action">Ver detalhes <i class="bi bi-arrow-right"></i></a>
+                {% endif %}
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state">
+            <div class="empty-icon"><i class="bi bi-briefcase"></i></div>
+            <h3>Nenhuma vaga cadastrada ainda</h3>
+            <p>Quando você cadastrar oportunidades, elas aparecerão aqui.</p>
+            <a href="#" class="btn btn-primary-custom"><i class="bi bi-plus-lg"></i> Cadastrar primeira vaga</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="empty-filter d-none" id="emptyFilter">
+        <i class="bi bi-search"></i>
+        <strong>Nenhuma vaga encontrada</strong>
+        <span>Tente alterar os termos da busca ou os filtros selecionados.</span>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const searchInput = document.getElementById("jobSearch");
+    const modalityFilter = document.getElementById("modalityFilter");
+    const typeFilter = document.getElementById("typeFilter");
+    const jobCards = [...document.querySelectorAll(".job-card")];
+    const visibleCount = document.getElementById("visibleCount");
+    const emptyFilter = document.getElementById("emptyFilter");
+
+    function normalize(value) {
+        return (value || "").toLocaleLowerCase("pt-BR").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filterJobs() {
+        const term = normalize(searchInput.value.trim());
+        const modality = normalize(modalityFilter.value);
+        const type = normalize(typeFilter.value);
+        let visible = 0;
+
+        jobCards.forEach(card => {
+            const matchesTerm = normalize(card.dataset.search).includes(term);
+            const matchesModality = !modality || normalize(card.dataset.modality).includes(modality);
+            const matchesType = !type || normalize(card.dataset.type).includes(type);
+            const show = matchesTerm && matchesModality && matchesType;
+            card.classList.toggle("d-none", !show);
+            if (show) visible++;
+        });
+
+        visibleCount.textContent = visible;
+        emptyFilter.classList.toggle("d-none", visible !== 0 || jobCards.length === 0);
+    }
+
+    [searchInput, modalityFilter, typeFilter].forEach(element => {
+        element.addEventListener("input", filterJobs);
+        element.addEventListener("change", filterJobs);
+    });
+
+    document.querySelectorAll(".save-button").forEach(button => {
+        button.addEventListener("click", () => {
+            button.classList.toggle("saved");
+            button.innerHTML = button.classList.contains("saved")
+                ? '<i class="bi bi-bookmark-fill"></i>'
+                : '<i class="bi bi-bookmark"></i>';
+        });
+    });
+</script>
+{% endblock %}
